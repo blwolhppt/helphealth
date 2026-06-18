@@ -1,0 +1,15 @@
+@font-face {
+  font-family: 'MyCustomFont';
+  src: url('./assets/fonts/SSFBreakthrough-Regular.ttf') format('otf');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+html, body, #root {
+  font-family: 'MyCustomFont', system-ui, -apple-system, sans-serif;
+}
+
+*, *::before, *::after {
+  font-family: inherit;
+}
