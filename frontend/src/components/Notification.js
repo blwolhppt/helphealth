@@ -9,7 +9,7 @@ const NotificationSidebar = () => {
   const fetchNotifications = async () => {
     try {
       const token = localStorage.getItem('accessToken');
-      const response = await fetch('http://127.0.0.1:8000/api/notifications/', {
+      const response = await fetch('http://158.160.158.152:8000/api/notifications/', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -29,7 +29,7 @@ const NotificationSidebar = () => {
   const markAsRead = async (id) => {
     try {
       const token = localStorage.getItem('accessToken');
-      const response = await fetch(`http://127.0.0.1:8000/api/notifications/${id}/`, {
+      const response = await fetch(`http://158.160.158.152:8000/api/notifications/${id}/`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ const NotificationSidebar = () => {
   const markAllRead = async () => {
     try {
       const token = localStorage.getItem('accessToken');
-      const response = await fetch('http://127.0.0.1:8000/api/notifications/mark_all_read/', {
+      const response = await fetch('http://158.160.158.152:8000/api/notifications/mark_all_read/', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

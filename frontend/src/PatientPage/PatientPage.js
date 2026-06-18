@@ -113,7 +113,7 @@ const PatientPage = () => {
       if (!id) return;
       
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/patients/${id}/`, {
+        const response = await fetch(`http://158.160.158.152:8000/api/patients/${id}/`, {
             headers: { 
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
@@ -187,7 +187,7 @@ const PatientPage = () => {
 
   const fetchDiaryData = async (patientId, fromDate = '', toDate = '') => {
     try {
-      let url = `http://127.0.0.1:8000/api/diaries/?diary_patient=${patientId}`;
+      let url = `http://158.160.158.152:8000/api/diaries/?diary_patient=${patientId}`;
       if (fromDate) url += `&diary_date_after=${fromDate}`;
       if (toDate) url += `&diary_date_before=${toDate}`;
 
@@ -229,7 +229,7 @@ const PatientPage = () => {
 
       const fetchDocumentsData = async (patientId, fromDate = '', toDate = '', type = '') => {
     try {
-      let url = `http://127.0.0.1:8000/api/documents/?document_patient=${patientId}`;
+      let url = `http://158.160.158.152:8000/api/documents/?document_patient=${patientId}`;
       if (fromDate) url += `&document_date_after=${fromDate}`;
       if (toDate) url += `&document_date_before=${toDate}`;
       if (type) url += `&document_type=${type}`;
@@ -272,7 +272,7 @@ const PatientPage = () => {
   const fetchAnalysisNotes = async (patientId) => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/analysisnotes/?notes_patient=${patientId}`,
+        `http://158.160.158.152:8000/api/analysisnotes/?notes_patient=${patientId}`,
         { headers: { 
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
@@ -297,7 +297,7 @@ const PatientPage = () => {
 
   const fetchRecordsData = async (patientId, fromDate = '', toDate = '') => {
     try {
-      let url = `http://127.0.0.1:8000/api/notes/?note_patient=${patientId}`;
+      let url = `http://158.160.158.152:8000/api/notes/?note_patient=${patientId}`;
       if (fromDate) url += `&note_date_after=${fromDate}`;
       if (toDate) url += `&note_date_before=${toDate}`;
 
@@ -350,7 +350,7 @@ const PatientPage = () => {
         note_description: newRecordDescription.trim(),
         note_reason: newRecordReason.trim()
       };
-      const response = await fetch('http://127.0.0.1:8000/api/notes/', {
+      const response = await fetch('http://158.160.158.152:8000/api/notes/', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -388,7 +388,7 @@ const PatientPage = () => {
 
   const fetchDevicesData = async (patientId, fromDate = '', toDate = '') => {
     try {
-      let url = `http://127.0.0.1:8000/api/devicedata/?devicedata_patient=${patientId}`;
+      let url = `http://158.160.158.152:8000/api/devicedata/?devicedata_patient=${patientId}`;
       if (fromDate) url += `&devicedata_date_after=${fromDate}`;
       if (toDate) url += `&devicedata_date_before=${toDate}`;
 

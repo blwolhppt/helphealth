@@ -18,7 +18,7 @@ const ProfilePage = () => {
           throw new Error('Данные врача не найдены. Войдите в систему снова.');
         }
 
-        const response = await fetch(`http://127.0.0.1:8000/api/doctors/${storedDoctor.id}/`, {
+        const response = await fetch(`http://158.160.158.152:8000/api/doctors/${storedDoctor.id}/`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`

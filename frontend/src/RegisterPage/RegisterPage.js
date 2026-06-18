@@ -29,7 +29,7 @@ const RegisterPage = () => {
   useEffect(() => {
     const fetchSpecializations = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/specializations/', {
+        const response = await fetch('http://158.160.158.152:8000/api/specializations/', {
           headers: { 'Content-Type': 'application/json' }
         });
         
@@ -126,7 +126,7 @@ const RegisterPage = () => {
         data.append('doctor_photo', selectedPhoto);
       }
 
-      const response = await fetch('http://127.0.0.1:8000/api/doctors/', {
+      const response = await fetch('http://158.160.158.152:8000/api/doctors/', {
         method: 'POST',
         body: data,
       });
