@@ -135,8 +135,8 @@ SPECTACULAR_SETTINGS = {
     "COMPONENT_SPLIT_REQUEST": True,
 }
 
-CORS_ALLOWED_ORIGINS = ["http://158.160.158.152:3000"]
-FRONTEND_URL = 'http://158.160.158.152:3000'
+CORS_ALLOWED_ORIGINS = ["http://81.26.183.116:3000"]
+FRONTEND_URL = 'http://81.26.183.116:3000'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'

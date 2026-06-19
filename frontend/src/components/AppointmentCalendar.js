@@ -20,7 +20,7 @@ const AppointmentCalendar = () => {
     try {
       const token = localStorage.getItem('accessToken');
       const response = await fetch(
-        `http://158.160.158.152:8000/api/appointments/?appointment_patient=${id}`,
+        `http://81.26.183.116:8000/api/appointments/?appointment_patient=${id}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ const AppointmentCalendar = () => {
       const token = localStorage.getItem('accessToken');
       const doctor = JSON.parse(localStorage.getItem('doctor'));
       
-      const response = await fetch('http://158.160.158.152:8000/api/appointments/', {
+      const response = await fetch('http://81.26.183.116:8000/api/appointments/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ const AppointmentCalendar = () => {
   const handleDeleteConfirm = async () => {
     try {
       const token = localStorage.getItem('accessToken');
-      const response = await fetch(`http://158.160.158.152:8000/api/appointments/${appointmentToDelete}/`, {
+      const response = await fetch(`http://81.26.183.116:8000/api/appointments/${appointmentToDelete}/`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

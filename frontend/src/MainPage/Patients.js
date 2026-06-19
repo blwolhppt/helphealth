@@ -25,7 +25,7 @@ function Patients() {
   const fetchPatients = async () => {
     try {
       const token = localStorage.getItem('accessToken');
-      const response = await fetch('http://158.160.158.152:8000/api/assignments/', {
+      const response = await fetch('http://81.26.183.116:8000/api/assignments/', {
         headers: { 
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -66,7 +66,7 @@ function Patients() {
 
     try {
       const token = localStorage.getItem('accessToken');
-      const response = await fetch('http://158.160.158.152:8000/api/doctors/assign_patient/', {
+      const response = await fetch('http://81.26.183.116:8000/api/doctors/assign_patient/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -118,7 +118,7 @@ function Patients() {
       const token = localStorage.getItem('accessToken');
       const newStatus = currentStatus === 'Active' ? 'Archived' : 'Active';
       
-      const response = await fetch(`http://158.160.158.152:8000/api/assignments/${assignmentId}/`, {
+      const response = await fetch(`http://81.26.183.116:8000/api/assignments/${assignmentId}/`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

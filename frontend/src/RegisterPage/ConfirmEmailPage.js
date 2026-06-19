@@ -23,7 +23,7 @@ const ConfirmEmailPage = () => {
 
     const confirmEmail = async () => {
       try {
-        const response = await fetch('http://158.160.158.152:8000/api/doctors/confirm_email/', {
+        const response = await fetch('http://81.26.183.116:8000/api/doctors/confirm_email/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -15,7 +15,7 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://158.160.158.152:8000/api/token/', {
+      const response = await fetch('http://81.26.183.116:8000/api/token/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
