@@ -29,6 +29,7 @@ services:
       db:
         condition: service_healthy
     environment:
+      - OLLAMA_HOST=http://172.18.0.1:11434
       - DB_NAME=healthhelp
       - DB_USER=healthuser
       - DB_PASSWORD=healthpass
