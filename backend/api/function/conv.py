@@ -5,7 +5,7 @@ from json_repair import repair_json
 from openai import OpenAI, Timeout
 
 client = OpenAI(
-    base_url="http://172.18.0.1:11434/v1",
+    base_url="https://levitra-add-exclusion-consumers.trycloudflare.com",
     api_key="ollama",
     timeout=Timeout(timeout=120.0, connect=10.0),
 )
