@@ -10,6 +10,8 @@ const RegisterPage = () => {
   const [loadingSpecs, setLoadingSpecs] = useState(true);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState('');
   
   const [formData, setFormData] = useState({
     username: '',
@@ -59,13 +61,11 @@ const RegisterPage = () => {
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Валидация размера (макс 5MB)
       if (file.size > 5 * 1024 * 1024) {
         setError('Размер файла не должен превышать 5MB');
         return;
       }
       
-      // Валидация типа
       if (!file.type.startsWith('image/')) {
         setError('Можно загружать только изображения');
         return;
@@ -138,14 +138,49 @@ const RegisterPage = () => {
           .join(', ') || 'Ошибка регистрации';
         throw new Error(errorMessage);
       }
-
-      navigate('/login');
+      setRegisteredEmail(formData.doctor_email);
+      setRegistrationSuccess(true);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
+  if (registrationSuccess) {
+    return (
+      <div className="register-page">
+        <div className="register-container">
+          <div className="success-notification">
+            <div className="success-icon">✉️</div>
+            <h2 className="success-title">Регистрация успешна!</h2>
+            <p className="success-message">
+              На адрес <strong>{registeredEmail}</strong> отправлено письмо с ссылкой для подтверждения email.
+            </p>
+            <p className="success-hint">
+              Пожалуйста, проверьте вашу почту и перейдите по ссылке для активации аккаунта.
+            </p>
+            <div className="success-actions">
+              <Link to="/login" className="success-btn">
+                Перейти на страницу входа
+              </Link>
+            </div>
+            <p className="success-note">
+              Не получили письмо? Проверьте папку "Спам" или{' '}
+              <button 
+                className="resend-link"
+                onClick={() => {
+                  setRegistrationSuccess(false);
+                  setError('');
+                }}
+              >
+                зарегистрируйтесь снова
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="register-page">
@@ -390,7 +425,7 @@ const RegisterPage = () => {
               className="register-submit-btn"
               disabled={loading}
             >
-              {loading ? 'Регистрация' : 'Зарегистрироваться'}
+              {loading ? 'Регистрация...' : 'Зарегистрироваться'}
             </button>
           </div>
         </form>

@@ -75,6 +75,7 @@ DATABASES = {
 }
 
 
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -134,4 +135,13 @@ SPECTACULAR_SETTINGS = {
     "COMPONENT_SPLIT_REQUEST": True,
 }
 
-CORS_ALLOWED_ORIGINS = ["http://158.160.158.152:3000", "http://localhost:3000"]
+CORS_ALLOWED_ORIGINS = ["http://158.160.158.152:3000"]
+FRONTEND_URL = 'http://158.160.158.152:3000'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True 
+EMAIL_HOST_USER = 'obelova2003@yandex.ru'
+EMAIL_HOST_PASSWORD = 'prnurmkileylylep'
+DEFAULT_FROM_EMAIL = 'Служба поддержки HelpHealth'

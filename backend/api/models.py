@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import secrets
+from datetime import timedelta
+from django.utils import timezone
 import random
 import string
 from .validators import (
@@ -160,8 +163,47 @@ class Doctor(AbstractUser):
         blank=True,
         verbose_name="О себе"
     )
+    is_email_confirmed = models.BooleanField(
+        default=False,
+        verbose_name="Email подтвержден"
+    )
+    email_confirmation_token = models.CharField(
+        max_length=64,
+        null=True,
+        blank=True,
+        unique=True,
+        verbose_name="Токен подтверждения email"
+    )
+    email_confirmation_token_created_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Время создания токена"
+    )
 
     REQUIRED_FIELDS = ['doctor_email', 'doctor_first_name', 'doctor_second_name', 'doctor_phone_number']
+
+    def generate_email_confirmation_token(self):
+        self.email_confirmation_token = secrets.token_urlsafe(48)
+        self.email_confirmation_token_created_at = timezone.now()
+        self.save(update_fields=['email_confirmation_token', 'email_confirmation_token_created_at'])
+        return self.email_confirmation_token
+    
+    def is_email_token_valid(self):
+        if not self.email_confirmation_token or not self.email_confirmation_token_created_at:
+            return False
+        token_age = timezone.now() - self.email_confirmation_token_created_at
+        return token_age < timedelta(hours=24)
+    
+    def confirm_email(self, token):
+        if self.email_confirmation_token == token and self.is_email_token_valid():
+            self.is_email_confirmed = True
+            self.email_confirmation_token = None
+            self.email_confirmation_token_created_at = None
+            self.is_active = True
+            self.save(update_fields=['is_email_confirmed', 'email_confirmation_token', 
+                                   'email_confirmation_token_created_at', 'is_active'])
+            return True
+        return False
 
     def __str__(self):
         return f"{self.doctor_second_name} {self.doctor_first_name} {self.doctor_third_name}"
@@ -575,3 +617,4 @@ class Appointment(models.Model):
 
     def __str__(self):
         return f"{self.appointment_patient}: {self.appointment_datetime}"
+  

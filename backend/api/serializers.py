@@ -1,7 +1,14 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.exceptions import AuthenticationFailed
+from django.core.mail import send_mail
+from django.conf import settings
+import secrets
+from django.utils import timezone
 from django.contrib.auth.hashers import make_password
+
+from .tasks import send_confirmation_email_async
 from .models import (
     Doctor,
     Notification,
@@ -24,19 +31,24 @@ class DoctorTokenSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-        token['doctor_id'] = user.id
-        token['full_name'] = f"{user.doctor_second_name} {user.doctor_first_name}"
+        token["doctor_id"] = user.id
+        token["full_name"] = f"{user.doctor_second_name} {user.doctor_first_name}"
         return token
 
     def validate(self, attrs):
+        email = attrs.get("email") or attrs.get("username")
+        doctor = Doctor.objects.filter(doctor_email=email).first()
+        if doctor and not doctor.is_email_confirmed:
+            raise AuthenticationFailed("Email не подтвержден. Проверьте почту.")
         data = super().validate(attrs)
-        data['doctor'] = {
-            'id': self.user.id,
-            'first_name': self.user.doctor_first_name,
-            'second_name': self.user.doctor_second_name,
-            'email': self.user.doctor_email,
+        data["doctor"] = {
+            "id": self.user.id,
+            "first_name": self.user.doctor_first_name,
+            "second_name": self.user.doctor_second_name,
+            "email": self.user.doctor_email,
         }
         return data
+
 
 class DoctorTokenView(TokenObtainPairView):
     serializer_class = DoctorTokenSerializer
@@ -77,10 +89,20 @@ class DoctorSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         specializations = validated_data.pop("doctor_specialization", [])
         validated_data["password"] = make_password(validated_data.get("password"))
+        validated_data["is_active"] = False
+        validated_data["is_email_confirmed"] = False
         doctor = super().create(validated_data)
         if specializations:
             doctor.doctor_specialization.set(specializations)
-        
+        token = secrets.token_urlsafe(48)
+        doctor.email_confirmation_token = token
+        doctor.email_confirmation_token_created_at = timezone.now()
+        doctor.save(update_fields=["email_confirmation_token", "email_confirmation_token_created_at"])
+        send_confirmation_email_async(
+            doctor.doctor_email,
+            doctor.doctor_first_name,
+            token
+        )
         return doctor
 
     def update(self, instance, validated_data):
