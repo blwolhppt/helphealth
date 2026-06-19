@@ -144,4 +144,4 @@ EMAIL_PORT = 465
 EMAIL_USE_SSL = True 
 EMAIL_HOST_USER = 'obelova2003@yandex.ru'
 EMAIL_HOST_PASSWORD = 'prnurmkileylylep'
-DEFAULT_FROM_EMAIL = 'Служба поддержки HelpHealth'
+DEFAULT_FROM_EMAIL = 'Служба поддержки HelpHealth <obelova2003@yandex.ru>'
