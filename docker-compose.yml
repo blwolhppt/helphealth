@@ -29,7 +29,7 @@ services:
       db:
         condition: service_healthy
     environment:
-      - OLLAMA_HOST=https://mossy.ry:10000/v1/chat/completions
+      - OLLAMA_HOST=http://mossy.ru:10000/v1
       - DB_NAME=healthhelp
       - DB_USER=healthuser
       - DB_PASSWORD=healthpass
