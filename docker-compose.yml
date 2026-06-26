@@ -29,7 +29,7 @@ services:
       db:
         condition: service_healthy
     environment:
-      - OLLAMA_HOST=https://levitra-add-exclusion-consumers.trycloudflare.com
+      - OLLAMA_HOST=https://mossy.ry:10000/v1/chat/completions
       - DB_NAME=healthhelp
       - DB_USER=healthuser
       - DB_PASSWORD=healthpass

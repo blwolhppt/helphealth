@@ -5,7 +5,7 @@ from json_repair import repair_json
 from openai import OpenAI, Timeout
 
 client = OpenAI(
-    base_url="https://levitra-add-exclusion-consumers.trycloudflare.com",
+    base_url="https://mossy.ry:10000/v1/chat/completions",
     api_key="ollama",
     timeout=Timeout(timeout=120.0, connect=10.0),
 )
@@ -50,7 +50,7 @@ def extract_raw_text(pdf_path):
 def parse_with_llm(raw_text):
     try:
         response = client.chat.completions.create(
-            model="qwen2.5:7b",
+            model="Qwen3.6-35B-A3B-MTP",
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": USER_PROMPT.format(text=raw_text[:4000])},
