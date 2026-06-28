@@ -196,19 +196,35 @@ class PatientViewSet(viewsets.ModelViewSet):
             return Response({"error": "Email уже зарегистрирован"}, status=status.HTTP_400_BAD_REQUEST)
         if Patient.objects.filter(patient_phone_number=phone).exists():
             return Response({"error": "Телефон уже зарегистрирован"}, status=status.HTTP_400_BAD_REQUEST)
-
+        diagnoses_str = request.data.get("diagnoses", "")
         data = request.data.copy()
         data["patient_password"] = make_password(password)
+        if "diagnoses" in data:
+            del data["diagnoses"]
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         patient = serializer.save()
+
         invite_code = patient.generate_invite_code()
         patient.patient_invite_code = invite_code
         token = secrets.token_urlsafe(32)
         patient.patient_auth_token = token
 
         patient.save(update_fields=["patient_invite_code", "patient_auth_token"])
+        if diagnoses_str:
+            try:
+                diagnosis_ids = [int(id.strip()) for id in diagnoses_str.split(",") if id.strip()]
+                from .models import ChronicDiseas
+
+                for diagnosis_id in diagnosis_ids:
+                    try:
+                        diagnosis = ChronicDiseas.objects.get(id=diagnosis_id)
+                        patient.patient_diagnosis.add(diagnosis)
+                    except ChronicDiseas.DoesNotExist:
+                        pass
+            except (ValueError, AttributeError):
+                pass
 
         return Response({
             "status": "success",
@@ -217,6 +233,7 @@ class PatientViewSet(viewsets.ModelViewSet):
             "invite_code": invite_code,
             "name": f"{patient.patient_second_name} {patient.patient_first_name}"
         }, status=status.HTTP_201_CREATED)
+
 
 
     @action(detail=False, 
