@@ -598,7 +598,7 @@ const PatientPage = () => {
                         <td className="date-cell">{row.date}</td>
                         <td className="center">{row.steps}</td>
                         <td className="center">{row.pulse}</td>
-                        <td className="center">{row.temperature}°C</td>
+                        <td className="center">{row.temperature.toFixed(1)}°C</td>
                         <td className="center">{row.spo2}%</td>
                         <td className="center">{row.sleepTime}</td>
                         <td className="center">{row.sleepScore}</td>
